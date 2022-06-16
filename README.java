@@ -1,98 +1,172 @@
-package DSB_tests;
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.AfterTest;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
+	<groupId>com.dahsing</groupId>
+	<artifactId>weblogic-demo-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
-import java.net.MalformedURLException;
-import java.net.URL;
+	<name>weblogic-demo-app</name>
 
-public class functional_test {
-	WebDriver driver;
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<defaultSuiteFiles>
+			testngSIT.xml
+		</defaultSuiteFiles>
+		<suiteFile>${defaultSuiteFiles}</suiteFile>
+	</properties>
 
-  @Test(groups = { "sit", "smoke" })
-  public void fun1() {
-  System.out.println("-----fun1 start");
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
 
-	driver = new ChromeDriver();
-  
-  /* 
-  ChromeOptions chromeOptions = new ChromeOptions();
-  try {
-    driver = new RemoteWebDriver(new URL("http://10.9.17.252:4444/wd/hub"), chromeOptions);
-  } catch (MalformedURLException e) {
-    // TODO Auto-generated catch block
-    e.printStackTrace();
-  }
-*/
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.9.10</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 依赖velocity -->
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity-dep</artifactId>
+			<version>1.4</version>
+		</dependency>
 
-	driver.get("http://10.9.17.252:7001/spring-petclinic/");
-	driver.findElement(By.xpath("//a[@title='trigger a RuntimeException to see how it is handled']")).click();
-	String current_url= driver.getCurrentUrl();
-	String target_url="http://10.9.17.252:7001/spring-petclinic/oups";
-	Assert.assertEquals(current_url, target_url);
-  driver.quit();
-  }
-  @Test(dataProvider = "dp",groups = { "sit" })
-  public void fun2(Integer n, String s) {
-    System.out.println("-----fun2 start");
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
-	driver = new ChromeDriver();
-	driver.get("http://10.9.17.252:7001/spring-petclinic/");
-	driver.findElement(By.xpath("//a[@title='find owners']")).click();
-	String current_url= driver.getCurrentUrl();
-	String target_url="http://10.9.17.252:7001/spring-petclinic/owners/find";
-	Assert.assertEquals(current_url, target_url);
-  }
-  @Test(dataProvider = "dp",groups = { "uat" })
-  public void fun3(Integer n, String s) {
-    System.out.println("-----fun3 start");
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
-	driver = new ChromeDriver();
-	driver.get("http://10.9.17.252:7001/spring-petclinic/");
-	driver.findElement(By.xpath("//a[@title='veterinarians']")).click();
-	String current_url= driver.getCurrentUrl();
-	String target_url="http://10.9.17.252:7001/spring-petclinic/vets.html";
-	Assert.assertEquals(current_url, target_url);
-  }
-  
-  
-  @BeforeMethod(groups = { "must"})
-  public void beforeMethod() {
-  }
+		<!-- 依赖Guice -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
+		</dependency>
 
-  @AfterMethod(groups = { "must"})
-  public void afterMethod() {
-    System.out.println("-----quit driver");
-	  driver.quit();
-  }
+		<!-- 依赖reportNg 关联testNg -->
+		<dependency>
+			<groupId>org.uncommons</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.1.4</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.testng</groupId>
+					<artifactId>testng</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.1.2</version>
+
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		
+		
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.7</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.3.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.17</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.2.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.9</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>2.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<forkMode>once</forkMode>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<suiteXmlFiles>
+						<suiteXmlFile>${suiteFile}</suiteXmlFile>
+					</suiteXmlFiles>
+					<properties>
+						<property>
+							<name>usedefaultlisteners</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>listener</name>
+							<value>org.uncommons.reportng.HTMLReporter,org.uncommons.reportng.JUnitXMLReporter</value>
+						</property>
+					</properties>
+					<workingDirectory>target</workingDirectory>
+				</configuration>
+			</plugin>
 
 
-  @DataProvider
-  public Object[][] dp() {
-    return new Object[][] {
-      new Object[] { 1, "a" },
-      new Object[] { 2, "b" },
-    };
-  }
-  @BeforeTest(groups = { "must"})
-  public void beforeTest() {
-    System.out.println("-----Functional Test Start-----");
-  }
 
-  @AfterTest(groups = { "must"})
-  public void afterTest() {
-    System.out.println("-----Functional Test Finish-----");
-  }
 
-}
+		</plugins>
+
+
+
+	</build>
+
+
+
+</project>
